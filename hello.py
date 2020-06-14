@@ -35,3 +35,5 @@ fig, ax=plt.subplots()
 ston=ax.imshow(sigtonoise, cmap='Wistia')
 plt.colorbar(ston)
 plt.show()
+
+print("Hewwo owo")
