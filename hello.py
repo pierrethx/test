@@ -27,6 +27,7 @@ image_data2 = hdu_list2[0].data
 #print(image_data.shape)
 hdu_list2.close()
 
+
 sigtonoise=image_data/image_data2
 fig, ax=plt.subplots()
 
@@ -36,4 +37,6 @@ ston=ax.imshow(sigtonoise, cmap='Wistia')
 plt.colorbar(ston)
 plt.show()
 
-print("Hewwo owo")
+outfile='/Users/pierre/Downloads/signaltonoise-image.J024815-081723_icubes.wc.c5008_29.fits'
+hdu = fits.PrimaryHDU(sigtonoise)
+hdu.writeto(outfile, overwrite=True)
