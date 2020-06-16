@@ -12,7 +12,7 @@ image_file="/Users/pierre/Downloads/image.J024815-081723_icubes.wc.c5008_29.fits
 hdu_list = fits.open(image_file)
 #hdu_list.info()
 
-image_data = hdu_list[0].data
+signal = hdu_list[0].data[1:-1][1:-1]
 hdu_list.close()
 #print(type(image_data))
 #print(image_data.shape)
@@ -22,21 +22,29 @@ image_file2="/Users/pierre/Downloads/image.J024815-081723_icubes.wc.c5008_29_VAR
 hdu_list2 = fits.open(image_file2)
 #hdu_list.info()
 
-image_data2 = hdu_list2[0].data
+var = hdu_list2[0].data
+std = np.sqrt(var[1:-1][1:-1])
 #print(type(image_data))
 #print(image_data.shape)
 hdu_list2.close()
 
-
-sigtonoise=image_data/image_data2
+sigtonoise=signal/(std)
 fig, ax=plt.subplots()
 
-#star=ax[0].imshow(image_data, cmap='bone')
+#star=ax.contourf(image_data, cmap='cubehelix')
 #noise=ax[1].imshow(image_data2, cmap='pink')
-ston=ax.imshow(sigtonoise, cmap='Wistia')
+'''
+ston=ax.imshow(sigtonoise, cmap='cubehelix')
+plt.colorbar(ston)
+plt.show()'''
+
+ston=ax.imshow(sigtonoise, cmap='cubehelix')
 plt.colorbar(ston)
 plt.show()
 
-outfile='/Users/pierre/Downloads/signaltonoise-image.J024815-081723_icubes.wc.c5008_29.fits'
-hdu = fits.PrimaryHDU(sigtonoise)
-hdu.writeto(outfile, overwrite=True)
+#fig, ax=plt.subplots()
+#histogram=ax.hist(image_data.flatten(), 1000, color="peru")
+#plt.show()
+#outfile='/Users/pierre/Downloads/signaltonoise-image.J024815-081723_icubes.wc.c5008_29.fits'
+#hdu = fits.PrimaryHDU(sigtonoise)
+#hdu.writeto(outfile, overwrite=True)
